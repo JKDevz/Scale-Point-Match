@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     public Player bluePlayer;
     [HideInInspector] public Player winner { get; private set; }
 
+    [Header("Scene Handler")]
+    public SceneHandler sceneHandler;
+
     [Header("UI References")]
     public UIHandler uiHandler;
     
