@@ -28,17 +28,15 @@ public class Player
 
     #region METHODS
 
-    public void MakeMove(MoveType moveType)
+    public void MadeMove()
     {
-        turnsUsed++;
-
-        if (moveType == MoveType.place)
+        if (colour == PlayerType.red)
         {
-            activeBoxes++;
+            turnsUsed = GameManager.Instance.GetScores().redScore;
         }
         else
         {
-            activeBoxes--;
+            turnsUsed = GameManager.Instance.GetScores().blueScore;
         }
     }
 

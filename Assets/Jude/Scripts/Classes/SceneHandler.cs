@@ -22,7 +22,7 @@ public class SceneHandler
 
     public void ChangeScene(string name)
     {
-
+        SceneManager.LoadScene(name);
     }
 
     #endregion

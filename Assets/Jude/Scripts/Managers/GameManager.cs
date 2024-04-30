@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
 
     private void MadeMove(MoveType moveType)
     {
-        currentPlayer.MakeMove(moveType);
+        currentPlayer.MadeMove();
         uiHandler.UpdateBoard();
         uiHandler.UpdateScore();
         uiHandler.UpdateScales();
@@ -219,6 +219,11 @@ public class GameManager : MonoBehaviour
         currentPlayer = redPlayer;
 
         uiHandler.InitialiseUI();
+    }
+
+    public void RestartGame()
+    {
+        sceneHandler.ChangeScene(sceneHandler.actualGame);
     }
 
     #endregion
