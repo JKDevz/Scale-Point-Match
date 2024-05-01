@@ -25,5 +25,10 @@ public class SceneHandler
         SceneManager.LoadScene(name);
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
     #endregion
 }

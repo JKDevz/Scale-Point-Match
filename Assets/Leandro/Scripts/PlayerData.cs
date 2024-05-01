@@ -5,6 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Player Data", menuName = "Player Data")]
 public class PlayerData : ScriptableObject
 {
-    public string playerName;
-    public Color playerColor;
+    public Player playerInfo;
 }

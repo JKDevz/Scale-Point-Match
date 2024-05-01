@@ -8,6 +8,8 @@ public class Player
     #region VARIABLES
 
     public PlayerType colour;
+    public string name;
+    [Space]
     public int turnsMax;
     public int turnsUsed;
     public int activeBoxes;

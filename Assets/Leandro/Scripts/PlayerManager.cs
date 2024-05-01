@@ -37,22 +37,22 @@ public class PlayerManager : MonoBehaviour
             // Assign player data based on  input names
             if (player1IsRed)
             {
-                player1Data.playerColor = Color.red;
-                player1Data.playerName = player1NameInput.text;
-                player2Data.playerColor = Color.blue;
-                player2Data.playerName = player2NameInput.text;
+                player1Data.playerInfo.colour = PlayerType.red;
+                player1Data.playerInfo.name = player2NameInput.text;
+                player2Data.playerInfo.colour = PlayerType.blue;
+                player2Data.playerInfo.name = player1NameInput.text;
             }
             else
             {
-                player1Data.playerColor = Color.blue;
-                player1Data.playerName = player2NameInput.text;
-                player2Data.playerColor = Color.red;
-                player2Data.playerName = player1NameInput.text;
+                player1Data.playerInfo.colour = PlayerType.blue;
+                player1Data.playerInfo.name = player2NameInput.text;
+                player2Data.playerInfo.colour = PlayerType.red;
+                player2Data.playerInfo.name = player1NameInput.text;
             }
 
             // Update player text display with names and colors
-            player1Text.text = $"{player1Data.playerName} ({(player1IsRed ? "Red" : "Blue")})";
-            player2Text.text = $"{player2Data.playerName} ({(player1IsRed ? "Blue" : "Red")})";
+            player1Text.text = $"{player1Data.playerInfo.name} ({(player1IsRed ? "Red" : "Blue")})";
+            player2Text.text = $"{player2Data.playerInfo.name} ({(player1IsRed ? "Blue" : "Red")})";
         }
         else
         {
