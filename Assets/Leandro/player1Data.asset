@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b9b72fe0e7ff04fb7b2b81fa6a565e, type: 3}
   m_Name: player1Data
   m_EditorClassIdentifier: 
-  playerName: 
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  playerInfo:
+    colour: 0
+    name: JohnDoe
+    turnsMax: 0
+    turnsUsed: 0
+    activeBoxes: 0

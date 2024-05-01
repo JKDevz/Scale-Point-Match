@@ -14,8 +14,10 @@ public class GameManager : MonoBehaviour
     public int maxPlayerBoxes = 9;//Should always be an uneven number
 
     [Header("Player References")]
-    public Player redPlayer;
-    public Player bluePlayer;
+    public PlayerData playerOneData;
+    public PlayerData playerTwoData;
+    [HideInInspector] public Player redPlayer;
+    [HideInInspector] public Player bluePlayer;
     [HideInInspector] public Player winner { get; private set; }
 
     [Header("Scene Handler")]
@@ -88,6 +90,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        _instance = FindFirstObjectByType<GameManager>();
         InitialiseGame();
     }
 
@@ -210,8 +213,19 @@ public class GameManager : MonoBehaviour
 
     private void InitialiseGame()
     {
-        redPlayer = new Player(PlayerType.red, gameLength, 0);
-        bluePlayer = new Player(PlayerType.blue, gameLength, 0);
+        if (playerOneData.playerInfo.colour == PlayerType.red)
+        {
+            redPlayer = playerOneData.playerInfo;
+            bluePlayer = playerTwoData.playerInfo;
+        }
+        else
+        {
+            bluePlayer = playerOneData.playerInfo;
+            redPlayer = playerTwoData.playerInfo;
+        }
+
+        redPlayer.turnsMax = gameLength;
+        bluePlayer.turnsMax = gameLength;
 
         gameBoard = new GameBoard(new int[4, 4]);
 

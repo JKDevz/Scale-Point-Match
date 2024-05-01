@@ -25,8 +25,9 @@ public class UIHandler
     public TMP_Text redTurnsLeft;
     public TMP_Text blueTurnsLeft;
     [Space]
-    public GameObject redTurnMessage;
-    public GameObject blueTurnMessage;
+    public string currentTurnMessage;
+    public TMP_Text redTurnMessage;
+    public TMP_Text blueTurnMessage;
 
     [Header("Victory UI")]
     public Canvas victoryScreen;
@@ -60,6 +61,8 @@ public class UIHandler
         UpdateGameRound();
         ToggleTurnMessage();
         victoryScreen.enabled = false;
+        redTurnMessage.text = currentTurnMessage + " " + GameManager.Instance.redPlayer.name;
+        blueTurnMessage.text = currentTurnMessage + " " + GameManager.Instance.bluePlayer.name;
     }
 
     public void UpdateBoard()
@@ -102,13 +105,13 @@ public class UIHandler
     {
         if (GameManager.Instance.currentPlayer.colour == PlayerType.red)
         {
-            redTurnMessage.SetActive(true);
-            blueTurnMessage.SetActive(false);
+            redTurnMessage.enabled = true;
+            blueTurnMessage.enabled = false;
         }
         else
         {
-            redTurnMessage.SetActive(false);
-            blueTurnMessage.SetActive(true);
+            redTurnMessage.enabled = false;
+            blueTurnMessage.enabled = true;
         }
     }
 

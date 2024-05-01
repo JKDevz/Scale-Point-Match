@@ -47,8 +47,6 @@ public class Quadrant
                 }
             }
         }
-
-        Debug.Log(area[0,0] + " | " + area[1, 0] + " | " + area[0, 1] + " | " + area[1, 1]);
     }
 
     public int GetScale()
