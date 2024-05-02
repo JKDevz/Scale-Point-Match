@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
     [Header("Player References")]
     public PlayerData playerOneData;
     public PlayerData playerTwoData;
-    [HideInInspector] public Player redPlayer;
-    [HideInInspector] public Player bluePlayer;
+    public Player redPlayer;
+    public Player bluePlayer;
     [HideInInspector] public Player winner { get; private set; }
 
     [Header("Scene Handler")]
@@ -72,16 +72,12 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        onGameEnd += uiHandler.ToggleButtons;
-        onGameEnd += uiHandler.DisplayWinner;
-        onGameEnd += GameOver;
+
     }
 
     private void OnDisable()
     {
-        onGameEnd -= uiHandler.ToggleButtons;
-        onGameEnd -= uiHandler.DisplayWinner;
-        onGameEnd -= GameOver;
+
     }
 
     #endregion
@@ -100,6 +96,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerClicked(string pos)
     {
+
         int x = (int)char.GetNumericValue(pos[0]);
         int y = (int)char.GetNumericValue(pos[1]);
 
@@ -114,12 +111,12 @@ public class GameManager : MonoBehaviour
             gameBoard.MakeMove(new Vector2(x,y), MoveType.place, currentPlayer.colour);
             MadeMove(MoveType.place);
         }
-        else if (currentPlayer.colour == PlayerType.red && gameBoard.GetBoard()[x, y] == 2)//If the Box and Player are Red, then remove it
+        else if (currentPlayer.activeBoxes > 1 && currentPlayer.colour == PlayerType.red && gameBoard.GetBoard()[x, y] == 2)//If the Box and Player are Red, then remove it
         {
             gameBoard.MakeMove(new Vector2(x, y), MoveType.remove, currentPlayer.colour);
             MadeMove(MoveType.remove);
         }
-        else if (currentPlayer.colour == PlayerType.blue && gameBoard.GetBoard()[x, y] == 1)//If the Box and Player are Blue, then remove it
+        else if (currentPlayer.activeBoxes > 1 && currentPlayer.colour == PlayerType.blue && gameBoard.GetBoard()[x, y] == 1)//If the Box and Player are Blue, then remove it
         {
             gameBoard.MakeMove(new Vector2(x, y), MoveType.remove, currentPlayer.colour);
             MadeMove(MoveType.remove);
@@ -155,7 +152,7 @@ public class GameManager : MonoBehaviour
         uiHandler.UpdateBoard();
         uiHandler.UpdateScore();
         uiHandler.UpdateScales();
-        uiHandler.UpdateTurnsLeft();
+        uiHandler.UpdateTurns();
 
         if (IsGameOver())
         {
@@ -163,6 +160,9 @@ public class GameManager : MonoBehaviour
         }
 
         SwapPlayer();
+
+        redPlayer.SetActiveBoxes();
+        bluePlayer.SetActiveBoxes();
     }
 
     private void SwapPlayer()
@@ -183,8 +183,10 @@ public class GameManager : MonoBehaviour
 
     private bool IsGameOver()
     {
-        if (redPlayer.turnsUsed == gameLength && bluePlayer.turnsUsed == gameLength)
+        if (redPlayer.turnsUsed >= gameLength && bluePlayer.turnsUsed >= gameLength)
         {
+            Debug.Log("Game Over Triggered!");
+            GameOver();
             onGameEnd?.Invoke();
             return true;
         }
@@ -194,6 +196,8 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
+        Debug.Log("Game Over Handled!");
+
         int blueScore = GetScores().blueScore;
         int redScore = GetScores().redScore;
 
@@ -209,6 +213,9 @@ public class GameManager : MonoBehaviour
         {
             winner = bluePlayer;
         }
+
+        uiHandler.ToggleButtons();
+        uiHandler.DisplayWinner();
     }
 
     private void InitialiseGame()
@@ -225,7 +232,13 @@ public class GameManager : MonoBehaviour
         }
 
         redPlayer.turnsMax = gameLength;
+        redPlayer.turnsUsed = 0;
+        redPlayer.activeBoxes = 0;
+
         bluePlayer.turnsMax = gameLength;
+        bluePlayer.turnsUsed = 0;
+        bluePlayer.activeBoxes = 0;
+
 
         gameBoard = new GameBoard(new int[4, 4]);
 
@@ -235,16 +248,12 @@ public class GameManager : MonoBehaviour
         uiHandler.InitialiseUI();
     }
 
-    public void RestartGame()
-    {
-        sceneHandler.ChangeScene(sceneHandler.actualGame);
-    }
-
     #endregion
 }
 
 public enum MoveType
 {
     place,
-    remove
+    remove,
+    none
 }

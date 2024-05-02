@@ -32,13 +32,20 @@ public class Player
 
     public void MadeMove()
     {
+        SetActiveBoxes();
+
+        turnsUsed++;
+    }
+
+    public void SetActiveBoxes()
+    {
         if (colour == PlayerType.red)
         {
-            turnsUsed = GameManager.Instance.GetScores().redScore;
+            activeBoxes = GameManager.Instance.GetScores().redScore;
         }
         else
         {
-            turnsUsed = GameManager.Instance.GetScores().blueScore;
+            activeBoxes = GameManager.Instance.GetScores().blueScore;
         }
     }
 

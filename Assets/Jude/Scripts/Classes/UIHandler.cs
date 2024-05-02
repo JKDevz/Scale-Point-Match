@@ -8,7 +8,7 @@ using TMPro;
 public class UIHandler
 {
     [Header("Canvas References")]
-    public Canvas gameCanvas;
+    public GameObject gameCanvas;
 
     [Header("UI References")]
     public TMP_Text[] quadrantScales;
@@ -25,12 +25,14 @@ public class UIHandler
     public TMP_Text redTurnsLeft;
     public TMP_Text blueTurnsLeft;
     [Space]
-    public string currentTurnMessage;
-    public TMP_Text redTurnMessage;
-    public TMP_Text blueTurnMessage;
+    public GameObject redTurnMessage;
+    public GameObject blueTurnMessage;
+    [Space]
+    public TMP_Text redPlayerName;
+    public TMP_Text bluePlayerName;
 
     [Header("Victory UI")]
-    public Canvas victoryScreen;
+    public GameObject victoryScreen;
     public GameObject redVictoryMessage;
     public GameObject blueVictoryMessage;
     public GameObject tieVictoryMessage;
@@ -59,10 +61,11 @@ public class UIHandler
         UpdateScore();
         UpdateScales();
         UpdateGameRound();
+        UpdateTurns();
         ToggleTurnMessage();
-        victoryScreen.enabled = false;
-        redTurnMessage.text = currentTurnMessage + " " + GameManager.Instance.redPlayer.name;
-        blueTurnMessage.text = currentTurnMessage + " " + GameManager.Instance.bluePlayer.name;
+        victoryScreen.SetActive(false);
+        redPlayerName.text = GameManager.Instance.redPlayer.name;
+        bluePlayerName.text = GameManager.Instance.bluePlayer.name;
     }
 
     public void UpdateBoard()
@@ -105,13 +108,13 @@ public class UIHandler
     {
         if (GameManager.Instance.currentPlayer.colour == PlayerType.red)
         {
-            redTurnMessage.enabled = true;
-            blueTurnMessage.enabled = false;
+            redTurnMessage.SetActive(true);
+            blueTurnMessage.SetActive(false);
         }
         else
         {
-            redTurnMessage.enabled = false;
-            blueTurnMessage.enabled = true;
+            redTurnMessage.SetActive(false);
+            blueTurnMessage.SetActive(true);
         }
     }
 
@@ -121,7 +124,7 @@ public class UIHandler
         redScore.text = GameManager.Instance.GetScores().redScore.ToString();
     }
 
-    public void UpdateTurnsLeft()
+    public void UpdateTurns()
     {
         blueTurnsLeft.text = turnsLeftMessage + (GameManager.Instance.gameLength - GameManager.Instance.bluePlayer.turnsUsed).ToString();
         redTurnsLeft.text = turnsLeftMessage + (GameManager.Instance.gameLength - GameManager.Instance.redPlayer.turnsUsed).ToString();
@@ -142,7 +145,7 @@ public class UIHandler
 
     public void DisplayWinner()
     {
-        victoryScreen.enabled = true;
+        victoryScreen.SetActive(true);
         if (GameManager.Instance.winner == GameManager.Instance.redPlayer)
         {
             redVictoryMessage.SetActive(true);
@@ -153,7 +156,7 @@ public class UIHandler
         }
         else
         {
-            blueVictoryMessage.SetActive(false);
+            blueVictoryMessage.SetActive(true);
         }
     }
 

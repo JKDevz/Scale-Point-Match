@@ -8,6 +8,11 @@ public class MainMenu : MonoBehaviour
     [Header("SceneHandler")]
     public SceneHandler sceneHandler;
 
+    public void PlayMainMenu()
+    {
+        sceneHandler.ChangeScene(sceneHandler.mainMenu);
+    }
+
     public void PlayGame()
     {
         sceneHandler.ChangeScene(sceneHandler.actualGame);

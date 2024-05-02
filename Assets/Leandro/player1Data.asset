@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInfo:
     colour: 0
-    name: JohnDoe
-    turnsMax: 0
+    name: Jane
+    turnsMax: 20
     turnsUsed: 0
     activeBoxes: 0
