@@ -2962,6 +2962,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 533728583}
+  - component: {fileID: 533728584}
   m_Layer: 0
   m_Name: ---- AI OPPONENT ----
   m_TagString: Untagged
@@ -2984,6 +2985,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &533728584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533728582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 655c51306b834b14583b3650bdd0ad19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mediumSearchDepth: 0
+  hardSearchDepth: 0
+  difficulty: 0
+  moveWaitMin: 1.43
+  moveWaitMax: 0
+  aiPlayer:
+    colour: 0
+    name: 
+    turnsMax: 0
+    turnsUsed: 0
+    activeBoxes: 0
+  rootNode:
+    children: []
+    minimaxValue: 0
+    isMaximiser: 0
+    movePosition: {x: 0, y: 0}
+    simulation:
+      quadrants: []
+    gamePhase: 0
 --- !u!1 &543684678
 GameObject:
   m_ObjectHideFlags: 0

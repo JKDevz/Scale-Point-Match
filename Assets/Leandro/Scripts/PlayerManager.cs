@@ -3,13 +3,22 @@ using TMPro; // Using Text Mesh PRO
 
 public class PlayerManager : MonoBehaviour
 {
-    public TMP_InputField player1NameInput; 
-    public TMP_InputField player2NameInput; 
+    [Header("Player Data")]
     public PlayerData player1Data;
     public PlayerData player2Data;
+
+    [Header("2 Player References")]
+    public TMP_InputField player1NameInput; 
+    public TMP_InputField player2NameInput; 
+
     public TMP_Text player1Text; 
     public TMP_Text player2Text; 
     public UnityEngine.UI.Button playButton; 
+
+    [Header("1 Player References")]
+    public TMP_InputField singlePlayerNameInput;
+    public TMP_Text singlePlayerNameText;
+    public TMP_Text aiNameText;
 
     private void Start()
     {
