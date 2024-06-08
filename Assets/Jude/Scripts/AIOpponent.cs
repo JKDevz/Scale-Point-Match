@@ -78,8 +78,6 @@ public class AIOpponent : MonoBehaviour
     {
         rootNode = treeGenerator.GenerateTree(GameManager.Instance.instanceNode, depth, GameManager.Instance.currentPlayer.colour, GameManager.Instance.gameBoard);
 
-        Debug.Log(rootNode.children.Count);
-
         yield return new WaitForSeconds(1);
 
         Minimax.DoMinimax(rootNode, GameManager.Instance.currentPlayer.colour == PlayerType.red, depth, 0);
@@ -97,7 +95,6 @@ public class AIOpponent : MonoBehaviour
 
     public void PlayerMadeMove()
     {
-        Debug.Log("PLayer Mode Move");
         rootNode = treeGenerator.GenerateTree(GameManager.Instance.instanceNode, depth, GameManager.Instance.currentPlayer.colour, GameManager.Instance.gameBoard);
         Minimax.DoMinimax(rootNode, GameManager.Instance.currentPlayer.colour == PlayerType.red, depth, 0);
 
@@ -146,15 +143,10 @@ public class AIOpponent : MonoBehaviour
 
             Vector2 move = rootNode.children[currentIndex].movePosition;
 
-            Debug.Log(((int)move.x).ToString() + ((int)move.y).ToString());
+            Debug.Log("I made a move at: " + ((int)move.x).ToString() + ((int)move.y).ToString());
 
             GameManager.Instance.PlayerClicked(((int)move.x).ToString() + ((int)move.y).ToString());
         }
-    }
-
-    private void MadeMove()
-    {
-        //get the new rootNode
     }
 
     private List<Vector2> GetPossibleMoves()//Gets all possible moves depending on the AI's colour

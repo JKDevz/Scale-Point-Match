@@ -6,9 +6,7 @@ public class TreeGenerator
 {
     public Node GenerateTree(Node rootNode, int depth, PlayerType currentPlayer, GameBoard gameBoard)
     {
-        Debug.Log(depth);
-
-        if (depth <= 0 || rootNode.gamePhase == GameManager.Instance.rounds)
+        if (depth <= 0 || rootNode.gamePhase == GameManager.Instance.totalTurns)
         {
             // If max depth reached or game over return the current state
             return rootNode;
@@ -25,11 +23,11 @@ public class TreeGenerator
             childNode.parent = rootNode;
             childNode.isMaximiser = !(currentPlayer == PlayerType.red); // Red maximizes and blue minimizes flip flop
             childNode.gamePhase = rootNode.gamePhase + 1;
+            childNode.children = new List<Node>();
 
-            GameBoard simulatedBoard = SimulateMove(move, currentPlayer, gameBoard);
-            childNode.simulation = simulatedBoard;
+            childNode.simulation = SimulateMove(move, currentPlayer, gameBoard);
 
-            childNode = GenerateTree(childNode, depth - 1, GetNextPlayer(currentPlayer), simulatedBoard);
+            childNode = GenerateTree(childNode, depth - 1, GetNextPlayer(currentPlayer), childNode.simulation);
 
             rootNode.children.Add(childNode);
         }
@@ -75,7 +73,7 @@ public class TreeGenerator
 
         if (newGameBoard.GetBoard()[(int)move.x, (int)move.y] == 0) //If the space is empty
         {
-            newGameBoard.MakeMove(move, MoveType.place, playerType); // PLace the box
+            newGameBoard.MakeMove(move, MoveType.place, playerType); // Place the box
         }
         else //If the space is not empty
         {

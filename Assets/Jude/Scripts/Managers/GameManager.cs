@@ -158,8 +158,6 @@ public class GameManager : MonoBehaviour
 
     private void MadeMove(MoveType moveType)
     {
-        onMoveMade?.Invoke();
-
         currentPlayer.MadeMove();
         uiHandler.UpdateBoard();
         uiHandler.UpdateScore();
@@ -180,6 +178,8 @@ public class GameManager : MonoBehaviour
         instanceNode.isMaximiser = !instanceNode.isMaximiser;
         instanceNode.simulation = gameBoard;
         instanceNode.parent = null;
+
+        onMoveMade?.Invoke();
     }
 
     private void SwapPlayer()
