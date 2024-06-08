@@ -1248,6 +1248,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameLength: 20
   maxPlayerBoxes: 9
+  isSinglePlayer: 0
+  aiSettings: {fileID: 11400000, guid: 68f7fcf0ebf9cae46a6280032b62fd25, type: 2}
   playerOneData: {fileID: 11400000, guid: e1aa0e250df01d34aafa26e8aa646a37, type: 2}
   playerTwoData: {fileID: 11400000, guid: 3d0fb9f051eff014b943b64267e7cf89, type: 2}
   redPlayer:
@@ -1312,6 +1314,14 @@ MonoBehaviour:
     spriteFilled: {fileID: 21300000, guid: 20aaa2ed15949a54f878bf9a88dcb8b9, type: 3}
   gameBoard:
     quadrants: []
+  instanceNode:
+    children: []
+    minimaxValue: 0
+    isMaximiser: 0
+    movePosition: {x: 0, y: 0}
+    simulation:
+      quadrants: []
+    gamePhase: 0
   currentPhase: 0
 --- !u!1 &154485914
 GameObject:
@@ -2997,17 +3007,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655c51306b834b14583b3650bdd0ad19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mediumSearchDepth: 0
-  hardSearchDepth: 0
+  mediumSearchDepth: 3
+  hardSearchDepth: 5
   difficulty: 0
-  moveWaitMin: 1.43
-  moveWaitMax: 0
   aiPlayer:
     colour: 0
     name: 
     turnsMax: 0
     turnsUsed: 0
     activeBoxes: 0
+  aiSettings: {fileID: 11400000, guid: 68f7fcf0ebf9cae46a6280032b62fd25, type: 2}
+  moveWaitMin: 0.25
+  moveWaitMax: 1
   rootNode:
     children: []
     minimaxValue: 0

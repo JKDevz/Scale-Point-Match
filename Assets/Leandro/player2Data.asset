@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: player2Data
   m_EditorClassIdentifier: 
   playerInfo:
-    colour: 1
+    colour: 0
     name: John
     turnsMax: 20
     turnsUsed: 0

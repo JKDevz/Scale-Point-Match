@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9b9b72fe0e7ff04fb7b2b81fa6a565e, type: 3}
-  m_Name: player1Data
+  m_Script: {fileID: 11500000, guid: 2805b16e301051741bfafa6241d676a3, type: 3}
+  m_Name: AI Settings
   m_EditorClassIdentifier: 
-  playerInfo:
-    colour: 1
-    name: Jane
-    turnsMax: 20
-    turnsUsed: 0
-    activeBoxes: 0
+  isSinglePlayer: 0
+  aiMode: 1

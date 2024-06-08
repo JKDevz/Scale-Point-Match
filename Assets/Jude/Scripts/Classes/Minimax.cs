@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Minimax
 {
-    public int minimax(Node node, bool isMaximiser, int depth, int score)
+    public static int DoMinimax(Node node, bool isMaximiser, int depth, int score)
     {
         if (depth == 0)
         {
@@ -20,7 +20,7 @@ public class Minimax
 
                 for (int i = 0; i < node.children.Count; i++)
                 {
-                    bestValue = Mathf.Max(minimax(node.children[i], !isMaximiser, depth - 1, bestValue), bestValue);
+                    bestValue = Mathf.Max(DoMinimax(node.children[i], !isMaximiser, depth - 1, bestValue), bestValue);
                 }
             }
             else//Else if it is the Minimisers Turn (Blue)
@@ -29,16 +29,18 @@ public class Minimax
 
                 for (int i = 0; i < node.children.Count; i++)
                 {
-                    bestValue = Mathf.Min(minimax(node.children[i], !isMaximiser, depth - 1, bestValue), bestValue);
+                    bestValue = Mathf.Min(DoMinimax(node.children[i], !isMaximiser, depth - 1, bestValue), bestValue);
                 }
             }
 
+            node.minimaxValue = bestValue;
             return bestValue;
         }
     }
 
-    public int UtilityFunction(Node node)
+    public static int UtilityFunction(Node node)
     {
-        return -(node.simulation.GetScores().blueScore) + (node.simulation.GetScores().redScore);
+        node.minimaxValue = -(node.simulation.GetScores().blueScore) + (node.simulation.GetScores().redScore);
+        return node.minimaxValue;
     }
 }
