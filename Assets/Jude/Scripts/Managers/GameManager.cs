@@ -29,11 +29,12 @@ public class GameManager : MonoBehaviour
 
     [Header("UI References")]
     public UIHandler uiHandler;
-    
+    public Button[] boardButtons;
+
     [Header("Game Board")]
     public GameBoard gameBoard;
 
-    public Node instanceNode;
+    [HideInInspector] public Node instanceNode;
 
     [Header(">>>>> EXPOSED FOR TESTING")]
     [SerializeField] private int currentPhase;//Increments to match the "phases" of the game, after both players have made a move and now have the same number of turns remaining.
@@ -170,6 +171,24 @@ public class GameManager : MonoBehaviour
         }
 
         SwapPlayer();
+
+        if (isSinglePlayer)//If the game is in Single Player
+        {
+            if (currentPlayer == playerTwoData.playerInfo)//If the Current Player is the AI player (Always Player 2)
+            {
+                foreach (Button btn in boardButtons)//Disable the buttons so that the Human cannot click
+                {
+                    btn.interactable = false;
+                }
+            }
+            else//If it is the Humans turn
+            {
+                foreach (Button btn in boardButtons)//Enable all the buttons
+                {
+                    btn.interactable = true;
+                }
+            }
+        }
 
         redPlayer.SetActiveBoxes();
         bluePlayer.SetActiveBoxes();

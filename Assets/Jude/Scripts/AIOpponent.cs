@@ -7,7 +7,7 @@ public class AIOpponent : MonoBehaviour
     #region VARIABLES
 
     [Header("Minimax Settings")]
-    public int mediumSearchDepth, hardSearchDepth;
+    public int easySearchDepth, mediumSearchDepth, hardSearchDepth;
     public AIMode difficulty;
 
     [Header("Player References")]
@@ -19,7 +19,7 @@ public class AIOpponent : MonoBehaviour
     [Range(0, 5)] public float moveWaitMax;
 
     public TreeGenerator treeGenerator;
-    public Node rootNode;
+    [HideInInspector] public Node rootNode;
 
     private int depth;
 
@@ -55,7 +55,11 @@ public class AIOpponent : MonoBehaviour
         //AI Opponent is always Player 2
         //Of course, being Red or Blue determines who will player first.
 
-        if (difficulty == AIMode.medium)
+        if (difficulty == AIMode.easy)
+        {
+            depth = easySearchDepth;
+        }
+        else if (difficulty == AIMode.medium)
         {
             depth = mediumSearchDepth;
         }
@@ -84,7 +88,6 @@ public class AIOpponent : MonoBehaviour
 
         if (myTurn)
         {
-            Debug.Log("My Turn! Making a Move!");
             MakeMove();
         }
     }
@@ -95,14 +98,20 @@ public class AIOpponent : MonoBehaviour
 
     public void PlayerMadeMove()
     {
-        rootNode = treeGenerator.GenerateTree(GameManager.Instance.instanceNode, depth, GameManager.Instance.currentPlayer.colour, GameManager.Instance.gameBoard);
-        Minimax.DoMinimax(rootNode, GameManager.Instance.currentPlayer.colour == PlayerType.red, depth, 0);
+        StartCoroutine(StartMakeMove());
+    }
+
+    private IEnumerator StartMakeMove()
+    {
+        yield return new WaitForSeconds(Random.Range(moveWaitMin, moveWaitMax));
 
         myTurn = !myTurn;
 
         if (myTurn)
         {
-            Debug.Log("My Turn! Making a Move!");
+            rootNode = treeGenerator.GenerateTree(GameManager.Instance.instanceNode, depth, GameManager.Instance.currentPlayer.colour, GameManager.Instance.gameBoard);
+            Minimax.DoMinimax(rootNode, GameManager.Instance.currentPlayer.colour == PlayerType.red, depth, 0);
+
             MakeMove();
         }
     }
@@ -117,7 +126,7 @@ public class AIOpponent : MonoBehaviour
         if (difficulty == AIMode.easy)//Make a random move
         {
             //Choose a Random child node
-            Vector2 move = GetPossibleMoves()[Random.Range(0, GameManager.Instance.instanceNode.children.Count)];
+            Vector2 move = GetPossibleMoves()[Random.Range(0, rootNode.children.Count)];
 
             GameManager.Instance.PlayerClicked("" + move.x + move.y);
         }
@@ -161,8 +170,6 @@ public class AIOpponent : MonoBehaviour
 
             Vector2 move = rootNode.children[moves[Random.Range(0, moves.Count)]].movePosition;
 
-            Debug.Log("I made a move at: " + ((int)move.x).ToString() + ((int)move.y).ToString());
-
             GameManager.Instance.PlayerClicked(((int)move.x).ToString() + ((int)move.y).ToString());
         }
     }
@@ -171,13 +178,13 @@ public class AIOpponent : MonoBehaviour
     {
         List<Vector2> possibleMoves = new List<Vector2>();
 
-        for (int i = 0; i < GameManager.Instance.instanceNode.simulation.GetBoard().Length; i++)
+        for (int i = 0; i < rootNode.simulation.GetBoard().Length; i++)
         {
             for (int x = 0; x < 4; x++)
             {
                 for (int y = 0; y < 4; y++)
                 {
-                    if (GameManager.Instance.instanceNode.simulation.GetBoard()[x, y] == 0)//If tile is empty, add the coords
+                    if (rootNode.simulation.GetBoard()[x, y] == 0)//If tile is empty, add the coords
                     {
                         possibleMoves.Add(new Vector2(x, y));
                     }
