@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2805b16e301051741bfafa6241d676a3, type: 3}
   m_Name: AI Settings
   m_EditorClassIdentifier: 
-  isSinglePlayer: 0
-  aiMode: 1
+  isSinglePlayer: 1
+  aiMode: 2

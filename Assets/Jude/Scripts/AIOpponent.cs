@@ -47,6 +47,8 @@ public class AIOpponent : MonoBehaviour
 
     private void Awake()
     {
+        this.enabled = GameManager.Instance.isSinglePlayer;
+
         aiPlayer = GameManager.Instance.playerTwoData.playerInfo;
         treeGenerator = new TreeGenerator();
         difficulty = aiSettings.aiMode;
@@ -61,8 +63,6 @@ public class AIOpponent : MonoBehaviour
         {
             depth = hardSearchDepth;
         }
-
-        this.enabled = !GameManager.Instance.isSinglePlayer;
 
         if (aiPlayer.colour == PlayerType.red)
         {
@@ -123,25 +123,43 @@ public class AIOpponent : MonoBehaviour
         }
         else if (difficulty == AIMode.medium || difficulty == AIMode.hard)
         {
-            //Choose out of the nodes
             int bestValue = 0;
-            int currentIndex = 0;
+
+            //Choose out of the nodes
+            if (aiPlayer.GetColour() == PlayerType.red)
+            {
+                bestValue = -10;
+            }
+            else
+            {
+                bestValue = 10;
+            }
+
+            List<int> moves = new List<int>();
 
             for (int i = 0; i < rootNode.children.Count; i++)
             {
-                if (aiPlayer.colour == PlayerType.red && rootNode.children[i].minimaxValue > bestValue)//If AI is the Maximiser, look for the highest value
+                if (aiPlayer.GetColour() == PlayerType.red && rootNode.children[i].minimaxValue > bestValue)//If AI is the Maximiser, look for the highest value
                 {
                     bestValue = rootNode.children[i].minimaxValue;
-                    currentIndex = i;
+
+                    moves.Clear();
+                    moves.Add(i);
                 }
-                else if (aiPlayer.colour == PlayerType.blue && rootNode.children[i].minimaxValue < bestValue)//If AI is the Minimiser, look for the lowest value
+                else if (aiPlayer.GetColour() == PlayerType.blue && rootNode.children[i].minimaxValue < bestValue)//If AI is the Minimiser, look for the lowest value
                 {
                     bestValue = rootNode.children[i].minimaxValue;
-                    currentIndex = i;
+
+                    moves.Clear();
+                    moves.Add(i);
+                }
+                else if (rootNode.children[i].minimaxValue == bestValue)
+                {
+                    moves.Add(i);
                 }
             }
 
-            Vector2 move = rootNode.children[currentIndex].movePosition;
+            Vector2 move = rootNode.children[moves[Random.Range(0, moves.Count)]].movePosition;
 
             Debug.Log("I made a move at: " + ((int)move.x).ToString() + ((int)move.y).ToString());
 
@@ -163,11 +181,11 @@ public class AIOpponent : MonoBehaviour
                     {
                         possibleMoves.Add(new Vector2(x, y));
                     }
-                    else if (aiPlayer.colour == PlayerType.red && GameManager.Instance.instanceNode.simulation.GetBoard()[x, y] == 2 && aiPlayer.activeBoxes > 1)//If the AI is red, then include boxes
+                    else if (aiPlayer.activeBoxes > 1 && aiPlayer.colour == PlayerType.red && GameManager.Instance.gameBoard.GetBoard()[x,y] == 2)//If the AI is red, then include boxes
                     {
                         possibleMoves.Add(new Vector2(x, y));
                     }
-                    else if (aiPlayer.colour == PlayerType.blue && GameManager.Instance.instanceNode.simulation.GetBoard()[x, y] == 1 && aiPlayer.activeBoxes > 1)
+                    else if (aiPlayer.activeBoxes > 1 && aiPlayer.colour == PlayerType.blue && GameManager.Instance.gameBoard.GetBoard()[x, y] == 1)
                     {
                         possibleMoves.Add(new Vector2(x, y));
                     }

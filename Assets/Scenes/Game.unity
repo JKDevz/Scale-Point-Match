@@ -3007,8 +3007,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655c51306b834b14583b3650bdd0ad19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mediumSearchDepth: 2
-  hardSearchDepth: 3
+  mediumSearchDepth: 3
+  hardSearchDepth: 5
   difficulty: 0
   aiPlayer:
     colour: 0
