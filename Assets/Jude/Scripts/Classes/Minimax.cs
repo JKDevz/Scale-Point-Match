@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//This algorithm was derived from the psuedocode found in this article:
+//https://medium.com/@indykidd/joys-of-minimax-and-negamax-ee5e456977e2
+//You can find the reference in the reference list in the submission document
+
 public class Minimax
 {
     public static int DoMinimax(Node node, bool isMaximiser, int depth, int score)
