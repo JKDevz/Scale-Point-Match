@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     [Header("Game Settings")]
     public int gameLength;//Total turns per player
     public int maxPlayerBoxes = 9;//Should always be an uneven number
+    public bool isSinglePlayer;
+
+    [Header("AI Settings")]
+    public AISettingsSO aiSettings;
 
     [Header("Player References")]
     public PlayerData playerOneData;
@@ -25,15 +29,19 @@ public class GameManager : MonoBehaviour
 
     [Header("UI References")]
     public UIHandler uiHandler;
-    
+    public Button[] boardButtons;
+
     [Header("Game Board")]
     public GameBoard gameBoard;
+
+    [HideInInspector] public Node instanceNode;
 
     [Header(">>>>> EXPOSED FOR TESTING")]
     [SerializeField] private int currentPhase;//Increments to match the "phases" of the game, after both players have made a move and now have the same number of turns remaining.
     //The game is considered over once both players have used all their turns.
     [SerializeField] public Player currentPlayer { get; private set; }
     [HideInInspector] public int rounds { get; private set; }
+    [HideInInspector] public int totalTurns { get; private set; }
     [HideInInspector] public bool gameEnded { get; private set; }
 
     #endregion
@@ -42,6 +50,9 @@ public class GameManager : MonoBehaviour
 
     public delegate void OnGameEnd();
     public static event OnGameEnd onGameEnd;
+
+    public delegate void OnMoveMade();
+    public static event OnMoveMade onMoveMade;
 
     #endregion
 
@@ -87,6 +98,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _instance = FindFirstObjectByType<GameManager>();
+        isSinglePlayer = aiSettings.isSinglePlayer;
         InitialiseGame();
     }
 
@@ -96,7 +108,6 @@ public class GameManager : MonoBehaviour
 
     public void PlayerClicked(string pos)
     {
-
         int x = (int)char.GetNumericValue(pos[0]);
         int y = (int)char.GetNumericValue(pos[1]);
 
@@ -161,8 +172,33 @@ public class GameManager : MonoBehaviour
 
         SwapPlayer();
 
+        if (isSinglePlayer)//If the game is in Single Player
+        {
+            if (currentPlayer == playerTwoData.playerInfo)//If the Current Player is the AI player (Always Player 2)
+            {
+                foreach (Button btn in boardButtons)//Disable the buttons so that the Human cannot click
+                {
+                    btn.interactable = false;
+                }
+            }
+            else//If it is the Humans turn
+            {
+                foreach (Button btn in boardButtons)//Enable all the buttons
+                {
+                    btn.interactable = true;
+                }
+            }
+        }
+
         redPlayer.SetActiveBoxes();
         bluePlayer.SetActiveBoxes();
+
+        instanceNode.gamePhase++;
+        instanceNode.isMaximiser = !instanceNode.isMaximiser;
+        instanceNode.simulation = gameBoard;
+        instanceNode.parent = null;
+
+        onMoveMade?.Invoke();
     }
 
     private void SwapPlayer()
@@ -243,7 +279,17 @@ public class GameManager : MonoBehaviour
         gameBoard = new GameBoard(new int[4, 4]);
 
         rounds = 1;
+        totalTurns = gameLength * 2;
+
         currentPlayer = redPlayer;
+
+        instanceNode = new Node();
+
+        instanceNode.parent = null;
+        instanceNode.isMaximiser = currentPlayer.colour == PlayerType.red; // Red maximizes and blue minimizes
+        instanceNode.gamePhase = 0;
+        instanceNode.simulation = gameBoard;
+        instanceNode.children = new List<Node>();
 
         uiHandler.InitialiseUI();
     }

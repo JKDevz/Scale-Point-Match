@@ -56,6 +56,29 @@ public class GameBoard
         return quadrants;
     }
 
+    public (int redScore, int blueScore) GetScores()
+    {
+        int blueScore = 0;
+        int redScore = 0;
+
+        for (int x = 0; x < 4; x++)
+        {
+            for (int y = 0; y < 4; y++)
+            {
+                if (gameBoard[x, y] == 1)
+                {
+                    blueScore++;
+                }
+                else if (gameBoard[x, y] == 2)
+                {
+                    redScore++;
+                }
+            }
+        }
+
+        return (redScore, blueScore);
+    }
+
     public void MakeMove(Vector2 position, MoveType moveType, PlayerType playerType)
     {
         if (playerType == PlayerType.red)

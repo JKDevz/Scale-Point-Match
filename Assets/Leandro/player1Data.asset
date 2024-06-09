@@ -16,5 +16,5 @@ MonoBehaviour:
     colour: 0
     name: Jane
     turnsMax: 20
-    turnsUsed: 0
-    activeBoxes: 0
+    turnsUsed: 1
+    activeBoxes: 1
